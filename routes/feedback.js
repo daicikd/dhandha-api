@@ -15,13 +15,14 @@ router.post(
   handleValidationErrors,
   async (req, res) => {
     try {
-      const { idea, reaction, score, message, email } = req.body
+      const { idea, reaction, score, message, name, email } = req.body
 
       const entry = await Feedback.create({
         idea,
         reaction,
         score:     Number(score),
         message:   message || '',
+        name:      name    || '',
         email:     email   || '',
         // Server-set only — never from client body
         ip:        req.ip,

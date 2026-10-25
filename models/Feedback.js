@@ -57,6 +57,14 @@ const feedbackSchema = new mongoose.Schema(
       trim: true
     },
 
+    // Optional display name, stripped of HTML
+    name: {
+      type: String,
+      default: '',
+      maxlength: [100, 'name cannot exceed 100 characters'],
+      trim: true
+    },
+
     // Optional email — validated format, stored only if provided
     email: {
       type: String,

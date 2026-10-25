@@ -101,12 +101,26 @@ app.use(hpp())
 app.set('trust proxy', 1)
 
 // ── Health check — public, no auth ──────────────────────────────────────
-app.get('/health', (req, res) => {
-  res.json({
-    ok: true,
-    status: 'operational',
-    timestamp: new Date().toISOString()
-  })
+// Pings MongoDB on every call, so an uptime monitor hitting this route
+// keeps both the host and the Atlas cluster active (Atlas pauses idle free clusters).
+app.get('/health', async (req, res) => {
+  try {
+    await mongoose.connection.db.admin().ping()
+    res.json({
+      ok: true,
+      status: 'operational',
+      db: 'connected',
+      timestamp: new Date().toISOString()
+    })
+  } catch (err) {
+    logger.error('Health check: database ping failed', err)
+    res.status(503).json({
+      ok: false,
+      status: 'degraded',
+      db: 'unreachable',
+      timestamp: new Date().toISOString()
+    })
+  }
 })
 
 // ── Routes ───────────────────────────────────────────────────────────────

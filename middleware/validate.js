@@ -43,6 +43,12 @@ const feedbackRules = [
     .isLength({ max: 2000 }).withMessage('message cannot exceed 2000 characters')
     .customSanitizer(stripHtml),
 
+  body('name')
+    .optional()
+    .isString().withMessage('name must be a string')
+    .isLength({ max: 100 }).withMessage('name cannot exceed 100 characters')
+    .customSanitizer(stripHtml),
+
   body('email')
     .optional({ checkFalsy: true })
     .isEmail().withMessage('Invalid email format')
