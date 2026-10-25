@@ -15,7 +15,6 @@ router.post(
   handleValidationErrors,
   async (req, res) => {
     try {
-      logger.info(`XFF debug: ${req.headers['x-forwarded-for']}`)
       const { idea, reaction, score, message, name, email } = req.body
 
       const entry = await Feedback.create({

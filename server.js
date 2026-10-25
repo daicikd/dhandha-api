@@ -98,7 +98,7 @@ app.use(mongoSanitize({
 app.use(hpp())
 
 // ── Trust proxy (Railway / Render sit behind a reverse proxy) ────────────
-app.set('trust proxy', 1)
+app.set('trust proxy', 3)
 
 // ── Health check — public, no auth ──────────────────────────────────────
 // Pings MongoDB on every call, so an uptime monitor hitting this route
